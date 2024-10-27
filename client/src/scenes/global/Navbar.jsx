@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Badge, Box, IconButton } from "@mui/material";
+import { Badge, Box, IconButton, useMediaQuery } from "@mui/material";
 import {
   PersonOutline,
   ShoppingBagOutlined,
@@ -15,6 +15,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   return (
     <Box
       display="flex"
@@ -42,6 +43,7 @@ const Navbar = () => {
             backgroundRepeat: "no-repeat",
             width: "100%",
             height: "48px",
+            marginTop: isMobile ? "20px" : "0px",
           }}
           color={shades.secondary[500]}></Box>
         <Box

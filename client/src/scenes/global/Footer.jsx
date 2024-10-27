@@ -1,6 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { Box, Typography } from "@mui/material";
 import { shades } from "../../theme";
+import logo from "../../assets/logo/logo.png";
 
 function Footer() {
   const {
@@ -17,23 +18,31 @@ function Footer() {
         rowGap="30px"
         columnGap="clamp(20px, 30px, 40px)">
         <Box width="clamp(20%, 30%, 40%)">
-          <Typography
+          <Box
             variant="h4"
             fontWeight="bold"
             mb="30px"
-            color={shades.secondary[500]}>
-            EDAVETCI
-          </Typography>
+            color={shades.secondary[500]}
+            sx={{
+              backgroundImage: `url(${logo})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              width: "100%",
+              height: "48px",
+            }}></Box>
           <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat
+            Eşsiz davetlerinize zarif bir dokunuş katmak için davetiyelerinizin
+            dijital halini tasarlıyoruz. Özel günlerinizi unutulmaz kılacak,
+            tarzınıza uygun, modern ve şık davetiye tasarımlarıyla sizleri
+            buluşturuyoruz. Sadece bir tıkla önizleme destekli davetiyelerinizi
+            oluşturabilirsiniz. Düğün, nişan, doğum günü ve tüm kutlamalarınızda
+            size özel tasarımlar için bizimle iletişime geçin. Davetlerinize
+            değer katmak için buradayız!
           </div>
         </Box>
 
         <Box>
-          <Typography variant="h4" fontWeight="bold" mb="30px">
+          <Typography variant="h3" fontWeight="bold" mb="30px">
             About Us
           </Typography>
           <Typography mb="30px">Careers</Typography>
@@ -42,7 +51,7 @@ function Footer() {
           <Typography mb="30px">Privacy Policy</Typography>
         </Box>
 
-        <Box>
+        {/* <Box>
           <Typography variant="h4" fontWeight="bold" mb="30px">
             Customer Care
           </Typography>
@@ -50,19 +59,20 @@ function Footer() {
           <Typography mb="30px">Track Your Order</Typography>
           <Typography mb="30px">Corporate & Bulk Purchasing</Typography>
           <Typography mb="30px">Returns & Refunds</Typography>
-        </Box>
+        </Box> */}
 
         <Box width="clamp(20%, 25%, 30%)">
-          <Typography variant="h4" fontWeight="bold" mb="30px">
-            Contact Us
+          <Typography variant="h3" fontWeight="bold" mb="30px">
+            İletişim
           </Typography>
           <Typography mb="30px">
-            50 north Whatever Blvd, Washington, DC 10501
+            Adres: Kayışdağı Mahallesi Akyazı Caddesi No: 34B Ataşehir /
+            İstanbul
           </Typography>
           <Typography mb="30px" sx={{ wordWrap: "break-word" }}>
-            Email: mredwardroh@gmail.com
+            Email: farukylcn@gmail.com
           </Typography>
-          <Typography mb="30px">(222)333-4444</Typography>
+          <Typography mb="30px">Telefon: 0 (534) 216 3446</Typography>
         </Box>
       </Box>
     </Box>

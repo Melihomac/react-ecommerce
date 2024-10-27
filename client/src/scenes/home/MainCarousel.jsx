@@ -59,7 +59,7 @@ const MainCarousel = () => {
       )}>
       {/* Belirli indeksi gösterme mantığı */}
       {Object.values(heroTextureImports)
-        .filter((_, index) => index === indexToShow) // Sadece belirli indeks gösteriliyor
+        .filter((_, index) => index === indexToShow)
         .map((texture, index) => (
           <Box key={`carousel-image-${index}`}>
             <img
@@ -67,7 +67,7 @@ const MainCarousel = () => {
               alt={`carousel-${index}`}
               style={{
                 width: "100%",
-                height: "1000px",
+                height: "1125px",
                 objectFit: "cover",
                 backgroundAttachment: "fixed",
               }}
