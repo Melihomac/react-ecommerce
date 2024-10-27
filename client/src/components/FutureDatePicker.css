@@ -1,0 +1,29 @@
+.react-datepicker {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif; /* Match Material UI font */
+  border: 1px solid #ced4da; /* Similar border to Material UI TextField */
+  border-radius: 4px; /* Match border radius */
+  box-shadow: none; /* Remove default shadow */
+  outline: none; /* Remove outline */
+}
+
+.react-datepicker__header {
+  background-color: #3f51b5; /* Material UI primary color */
+  color: white; /* Text color in header */
+}
+
+.react-datepicker__day {
+  border-radius: 50%; /* Rounded day buttons */
+}
+
+.react-datepicker__day:hover {
+  background-color: rgba(63, 81, 181, 0.1); /* Light hover effect */
+}
+
+.react-datepicker__day--selected {
+  background-color: #3f51b5; /* Selected day color */
+  color: white; /* Selected text color */
+}
+
+.react-datepicker__day--today {
+  font-weight: bold; /* Highlight today */
+}
