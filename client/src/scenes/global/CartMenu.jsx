@@ -25,7 +25,7 @@ const CartMenu = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
-  const [setItemData] = useState([]);
+  const [itemData, setItemData] = useState([]);
   const { documentId } = useParams();
 
   const totalPrice = cart.reduce((total, item) => {
