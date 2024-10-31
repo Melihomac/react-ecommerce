@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "informations",
+  "info": {
+    "singularName": "information",
+    "pluralName": "informations",
+    "displayName": "Information"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "email": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string"
+    },
+    "user_basket": {
+      "type": "blocks"
+    },
+    "price": {
+      "type": "decimal"
+    },
+    "user_address": {
+      "type": "text"
+    },
+    "user_phone": {
+      "type": "string"
+    }
+  }
+}

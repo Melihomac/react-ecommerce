@@ -211,14 +211,14 @@ const Checkout = () => {
                 />
               )}
               {isThirdStep && (
-                <Box sx={{ width: "100%", height: "1000px" }}>
+                <Box sx={{ height: "100%" }}>
                   <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
                   <iframe
                     src={`https://www.paytr.com/odeme/guvenli/${iframeToken}`}
                     id="paytriframe"
                     frameBorder="0"
                     scrolling="no"
-                    style={{ width: "100%" }}></iframe>
+                    style={{ width: "100%", height: "700px" }}></iframe>
                   <script>iFrameResize({}, '#paytriframe');</script>
                 </Box>
               )}
@@ -239,20 +239,22 @@ const Checkout = () => {
                     Back
                   </Button>
                 )}
-                <Button
-                  fullWidth
-                  type="submit"
-                  color="primary"
-                  variant="contained"
-                  sx={{
-                    backgroundColor: shades.primary[400],
-                    boxShadow: "none",
-                    color: "white",
-                    borderRadius: 0,
-                    padding: "15px 40px",
-                  }}>
-                  {!isSecondStep ? "Next" : "Place Order"}
-                </Button>
+                {!isThirdStep ? (
+                  <Button
+                    fullWidth
+                    type="submit"
+                    color="primary"
+                    variant="contained"
+                    sx={{
+                      backgroundColor: shades.primary[400],
+                      boxShadow: "none",
+                      color: "white",
+                      borderRadius: 0,
+                      padding: "15px 40px",
+                    }}>
+                    {!isSecondStep ? "Next" : "Place Order"}
+                  </Button>
+                ) : null}
               </Box>
             </form>
           )}

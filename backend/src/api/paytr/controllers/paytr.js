@@ -7,6 +7,12 @@ const nodeBase64 = require("nodejs-base64-converter");
 
 module.exports = {
   exampleAction: async (ctx, next) => {
+    const options = {
+      method: "GET",
+      url: "http://localhost:1337/api/informations",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    };
+    const responseInfo = await axios(options);
     try {
       const merchant_id = "407808";
       const merchant_key = "nFB9Une47ffYm85T";
@@ -19,8 +25,8 @@ module.exports = {
       const user_basket = nodeBase64.encode(basket);
       const merchant_oid = "IN" + microtime.now();
       const user_ip = ctx.request.ip || "";
-      const payment_amount = "10099";
-      const email = "testnon3d@paytr.com";
+      const payment_amount = "100";
+      const email = "melihomac@hotmail.com";
       const no_installment = "0";
       const max_installment = "0";
       const currency = "TL";
@@ -30,8 +36,8 @@ module.exports = {
       const user_name = "paytr Test";
       const lang = "tr";
       const non_3d = "1";
-      const merchant_fail_url = "https://github.com/Melihomac";
-      const merchant_ok_url = "https://github.com/Melihomac";
+      const merchant_fail_url = "http://localhost:3000/checkout/success";
+      const merchant_ok_url = "http://localhost:3000/checkout/success";
       const timeout_limit = "30";
       const debug_on = "1";
       const payment_type = "card";

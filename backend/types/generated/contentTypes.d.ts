@@ -534,6 +534,39 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiInformationInformation extends Struct.CollectionTypeSchema {
+  collectionName: 'informations';
+  info: {
+    displayName: 'Information';
+    pluralName: 'informations';
+    singularName: 'information';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::information.information'
+    > &
+      Schema.Attribute.Private;
+    price: Schema.Attribute.Decimal;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user_address: Schema.Attribute.Text;
+    user_basket: Schema.Attribute.Blocks;
+    user_name: Schema.Attribute.String;
+    user_phone: Schema.Attribute.String;
+  };
+}
+
 export interface ApiItemItem extends Struct.CollectionTypeSchema {
   collectionName: 'items';
   info: {
@@ -1084,6 +1117,7 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::category.category': ApiCategoryCategory;
       'api::global.global': ApiGlobalGlobal;
+      'api::information.information': ApiInformationInformation;
       'api::item.item': ApiItemItem;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
