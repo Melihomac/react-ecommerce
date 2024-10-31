@@ -17,7 +17,6 @@ const Checkout = () => {
 
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
-
     if (isFirstStep && values.shippingAddress.isSameAddress) {
       actions.setFieldValue("shippingAddress", {
         ...values.billingAddress,
@@ -40,7 +39,6 @@ const Checkout = () => {
           headers: { "Content-Type": "application/json" },
         });
         const jsonResponse = await response.json();
-        console.log(jsonResponse.iframetoken);
         setIframeToken(jsonResponse.iframetoken);
       } catch (error) {
         console.error("Error fetching iframetoken:", error);
@@ -169,10 +167,13 @@ const Checkout = () => {
     <Box width="80%" m="100px auto">
       <Stepper activeStep={activeStep} sx={{ m: "20px 0" }}>
         <Step>
-          <StepLabel>Billing</StepLabel>
+          <StepLabel>Fatura</StepLabel>
         </Step>
         <Step>
-          <StepLabel>Payment</StepLabel>
+          <StepLabel>Teslimat</StepLabel>
+        </Step>
+        <Step>
+          <StepLabel>Ödeme</StepLabel>
         </Step>
       </Stepper>
       <Box>
@@ -239,22 +240,22 @@ const Checkout = () => {
                     Back
                   </Button>
                 )}
-                {!isThirdStep ? (
-                  <Button
-                    fullWidth
-                    type="submit"
-                    color="primary"
-                    variant="contained"
-                    sx={{
-                      backgroundColor: shades.primary[400],
-                      boxShadow: "none",
-                      color: "white",
-                      borderRadius: 0,
-                      padding: "15px 40px",
-                    }}>
-                    {!isSecondStep ? "Next" : "Place Order"}
-                  </Button>
-                ) : null}
+
+                <Button
+                  fullWidth
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: shades.primary[400],
+                    boxShadow: "none",
+                    color: "white",
+                    borderRadius: 0,
+                    padding: "15px 40px",
+                  }}
+                  onClick={() => setActiveStep(1)}>
+                  {!isSecondStep ? "Next" : "Place Order"}
+                </Button>
               </Box>
             </form>
           )}

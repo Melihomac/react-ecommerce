@@ -36,7 +36,7 @@ const AddressForm = ({
       <TextField
         fullWidth
         type="text"
-        label="First Name"
+        label="İsim"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.firstName}
@@ -48,7 +48,7 @@ const AddressForm = ({
       <TextField
         fullWidth
         type="text"
-        label="Last Name"
+        label="Şehir"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.lastName}
@@ -58,21 +58,20 @@ const AddressForm = ({
         sx={{ gridColumn: "span 2" }}
       />
       <TextField
-        fullWidth
         type="text"
-        label="Country"
+        label="İlçe"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.country}
         name={formattedName("country")}
         error={formattedError("country")}
         helperText={formattedHelper("country")}
-        sx={{ gridColumn: "span 4" }}
+        sx={{ gridColumn: "span 2" }}
       />
       <TextField
         fullWidth
         type="text"
-        label="Street Address"
+        label="Mahalle"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.street1}
@@ -81,10 +80,10 @@ const AddressForm = ({
         helperText={formattedHelper("street1")}
         sx={{ gridColumn: "span 2" }}
       />
-      <TextField
+      {/* <TextField
         fullWidth
         type="text"
-        label="Street Address 2 (optional)"
+        label=""
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.street2}
@@ -92,20 +91,20 @@ const AddressForm = ({
         error={formattedError("street2")}
         helperText={formattedHelper("street2")}
         sx={{ gridColumn: "span 2" }}
-      />
+      /> */}
       <TextField
         fullWidth
         type="text"
-        label="City"
+        label="Açık Adres"
         onBlur={handleBlur}
         onChange={handleChange}
         value={values.city}
         name={formattedName("city")}
         error={formattedError("city")}
         helperText={formattedHelper("city")}
-        sx={{ gridColumn: "span 2" }}
+        sx={{ gridColumn: "span 4" }}
       />
-      <TextField
+      {/* <TextField
         fullWidth
         type="text"
         label="State"
@@ -116,8 +115,8 @@ const AddressForm = ({
         error={formattedError("state")}
         helperText={formattedHelper("state")}
         sx={{ gridColumn: "1fr" }}
-      />
-      <TextField
+      /> */}
+      {/* <TextField
         fullWidth
         type="text"
         label="Zip Code"
@@ -127,8 +126,8 @@ const AddressForm = ({
         name={formattedName("zipCode")}
         error={formattedError("zipCode")}
         helperText={formattedHelper("zipCode")}
-        sx={{ gridColumn: "1fr" }}
-      />
+        sx={{ gridColumn: "span 2" }}
+      /> */}
     </Box>
   );
 };
