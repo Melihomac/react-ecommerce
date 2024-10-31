@@ -15,13 +15,16 @@
     "@strapi/plugin-cloud": "5.1.1",
     "@strapi/plugin-users-permissions": "5.1.1",
     "@strapi/strapi": "5.1.1",
+    "axios": "^1.7.7",
     "fs-extra": "^10.0.0",
     "microtime": "^3.1.1",
     "mime-types": "^2.1.27",
+    "nodejs-base64-converter": "^1.0.5",
     "pg": "8.8.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.0.0",
+    "require": "^2.4.20",
     "styled-components": "^6.0.0"
   },
   "engines": {

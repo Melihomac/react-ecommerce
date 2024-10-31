@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Box, Button, Stepper, Step, StepLabel } from "@mui/material";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as yup from "yup";
 import { shades } from "../../theme";
 import Payment from "./Payment";
@@ -9,9 +9,11 @@ import Shipping from "./Shipping";
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [iframeToken, setIframeToken] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
   const isFirstStep = activeStep === 0;
   const isSecondStep = activeStep === 1;
+  const isThirdStep = activeStep === 2;
 
   const handleFormSubmit = async (values, actions) => {
     setActiveStep(activeStep + 1);
@@ -24,11 +26,29 @@ const Checkout = () => {
     }
 
     if (isSecondStep) {
-      fetchAndSendPaymentData();
+      setActiveStep(2);
     }
 
     actions.setTouched({});
   };
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const response = await fetch("http://localhost:1337/api/paytr", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+        const jsonResponse = await response.json();
+        console.log(jsonResponse.iframetoken);
+        setIframeToken(jsonResponse.iframetoken);
+      } catch (error) {
+        console.error("Error fetching iframetoken:", error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   // async function getUserIp() {
   //   try {
@@ -81,82 +101,69 @@ const Checkout = () => {
   //   }
   // }
 
-  async function fetchAndSendPaymentData() {
-    try {
-      const response = await fetch("http://localhost:1337/api/paytr");
-      const responseText = await response.text();
-      console.log("API Yanıtı:", responseText);
+  // async function fetchAndSendPaymentData() {
+  //   try {
+  //     const response = await fetch("http://localhost:1337/api/paytr");
+  //     const responseText = await response.text();
+  //     console.log("API Yanıtı:", responseText);
 
-      if (!response.ok) {
-        throw new Error(`HTTP hatası! Durum: ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP hatası! Durum: ${response.status}`);
+  //     }
 
-      const data = JSON.parse(responseText);
-      console.log("JSON Verisi:", data);
+  //     const data = JSON.parse(responseText);
+  //     console.log("JSON Verisi:", data);
 
-      const paymentData = {
-        merchant_id: data.merchant_id,
-        user_ip: data.user_ip,
-        merchant_oid: data.merchant_oid,
-        email: data.email,
-        payment_type: "card",
-        payment_amount: data.payment_amount,
-        currency: data.currency,
-        test_mode: "1",
-        non_3d: "0",
-        merchant_ok_url: data.merchant_ok_url,
-        merchant_fail_url: data.merchant_fail_url,
-        user_name: data.user_name,
-        user_address: data.user_address,
-        user_phone: data.user_phone,
-        user_basket: JSON.stringify(data.user_basket),
-        debug_on: data.debug_on,
-        client_lang: data.client_lang,
-        token: data.token,
-        non3d_test_failed: data.non3d_test_failed,
-        installment_count: "0",
-        card_type: "",
-        card_number: "9792030394440796",
-        card_exp_month: "12",
-        card_exp_year: "25",
-        card_cv: "000",
-      };
+  //     const paymentData = {
+  //       merchant_id: data.merchant_id,
+  //       user_ip: data.user_ip,
+  //       merchant_oid: data.merchant_oid,
+  //       email: data.email,
+  //       payment_type: "card",
+  //       payment_amount: data.payment_amount,
+  //       currency: data.currency,
+  //       test_mode: "1",
+  //       non_3d: "0",
+  //       merchant_ok_url: data.merchant_ok_url,
+  //       merchant_fail_url: data.merchant_fail_url,
+  //       user_name: data.user_name,
+  //       user_address: data.user_address,
+  //       user_phone: data.user_phone,
+  //       user_basket: JSON.stringify(data.user_basket),
+  //       debug_on: data.debug_on,
+  //       client_lang: data.client_lang,
+  //       paytr_token: data.token,
+  //       non3d_test_failed: data.non3d_test_failed,
+  //       installment_count: "0",
+  //       card_type: "",
+  //     };
 
-      const formData = new FormData();
-      Object.keys(paymentData).forEach((key) =>
-        formData.append(key, paymentData[key])
-      );
+  //     const formData = new FormData();
+  //     Object.keys(paymentData).forEach((key) =>
+  //       formData.append(key, paymentData[key])
+  //     );
 
-      const paytrResponse = await fetch("https://www.paytr.com/odeme", {
-        method: "POST",
-        body: formData,
-      });
+  //     const paytrResponse = await fetch("https://www.paytr.com/odeme", {
+  //       method: "POST",
+  //       body: formData,
+  //       headers: {
+  //         origin: ["https://www.paytr.com"],
+  //         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+  //       },
+  //     });
 
-      const paytrResponseText = await paytrResponse.text();
-      console.log("PayTR Yanıtı:", paytrResponseText);
-      console.log(paytrResponse.status);
-      try {
-        if (paytrResponse.status === 200) {
-          window.location.href = paytrResponse.url;
-        } else {
-          console.error("Ödeme işlemi başarısız:", paytrResponse.reason);
-        }
-      } catch (error) {
-        console.error("JSON.parse hatası:", error.message);
-        console.error("Aldığım yanıt:", paytrResponseText);
-      }
-    } catch (error) {
-      console.error("İstek gönderme hatası:", error);
-    }
-  }
+  //     const paytrResponseText = await paytrResponse.text();
+  //     console.log("PayTR Yanıtı:", paytrResponseText);
 
-  fetchAndSendPaymentData();
-
-  function calculateTotal(cart) {
-    return (
-      cart.reduce((total, item) => total + item.price * item.count, 0) * 100
-    ); // Kuruş cinsinden toplam
-  }
+  //     if (response.token) {
+  //       window.location.href = `https://www.paytr.com/odeme/guvenli/${response.data.token}`;
+  //     } else {
+  //       console.error("Ödeme işlemi başarısız:", paytrResponseText);
+  //     }
+  //   } catch (error) {
+  //     console.error("İstek gönderme hatası:", error);
+  //   }
+  // }
 
   return (
     <Box width="80%" m="100px auto">
@@ -202,6 +209,18 @@ const Checkout = () => {
                   handleChange={handleChange}
                   setFieldValue={setFieldValue}
                 />
+              )}
+              {isThirdStep && (
+                <Box sx={{ width: "100%", height: "1000px" }}>
+                  <script src="https://www.paytr.com/js/iframeResizer.min.js"></script>
+                  <iframe
+                    src={`https://www.paytr.com/odeme/guvenli/${iframeToken}`}
+                    id="paytriframe"
+                    frameBorder="0"
+                    scrolling="no"
+                    style={{ width: "100%" }}></iframe>
+                  <script>iFrameResize({}, '#paytriframe');</script>
+                </Box>
               )}
               <Box display="flex" justifyContent="space-between" gap="50px">
                 {!isFirstStep && (

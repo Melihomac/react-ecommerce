@@ -10,8 +10,8 @@ module.exports = {
       },
     },
     {
-      method: 'POST',
-      path: '/paytr/callback',
+      method: 'PUT',
+      path: '/paytr',
       handler: 'paytr.callbackAction',
       config: {
         policies: [],
