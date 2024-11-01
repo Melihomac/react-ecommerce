@@ -10,12 +10,17 @@ import { useNavigate } from "react-router-dom";
 import { shades } from "../../theme";
 import logo from "../../assets/logo/logo.png";
 import { setIsCartOpen } from "../../state";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const { user, isLoading, setUser } = useAuthContext();
+  const firstLetter = user?.username
+    ? user.username.charAt(0).toUpperCase()
+    : "";
   return (
     <Box
       display="flex"
@@ -54,9 +59,29 @@ const Navbar = () => {
           <IconButton sx={{ color: "black" }}>
             <SearchOutlined />
           </IconButton>
-          <IconButton sx={{ color: "black" }}>
-            <PersonOutline />
-          </IconButton>
+          {!user ? (
+            <IconButton sx={{ color: "black" }}>
+              <PersonOutline onClick={() => navigate("/signin")} />
+            </IconButton>
+          ) : (
+            <Box
+              sx={{
+                marginTop: "5px",
+                width: "25px", // kutunun genişliğini belirle
+                height: "25px", // kutunun yüksekliğini belirle
+                display: "flex", // içeriği ortalamak için flex
+                alignItems: "center", // dikey ortalama
+                justifyContent: "center", // yatay ortalama
+                border: "1px solid", // kenarlık ekle
+                borderRadius: "50%", // daire yapmak için
+                backgroundColor: "#f0f0f0", // arka plan rengi
+                cursor:"pointer"
+              }}
+              onClick={() => navigate("/profile")}>
+              {firstLetter}
+            </Box>
+          )}
+
           <Badge
             badgeContent={cart.length}
             color="secondary"

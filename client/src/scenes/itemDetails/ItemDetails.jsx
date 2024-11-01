@@ -180,8 +180,8 @@ const ItemDetails = () => {
                   backgroundRepeat: "repeat",
                   backgroundSize: "800px 150px",
                   transform: "translate(-50%, -50%) rotate(45deg)",
-                  opacity: 0.1, // Decrease opacity for a more subtle appearance
-                  pointerEvents: "none", // Prevent interaction
+                  opacity: 0.1,
+                  pointerEvents: "none",
                 }}
               />
               <ItemDetailComponent
@@ -341,7 +341,7 @@ const ItemDetails = () => {
                 padding: "10px 40px",
               }}
               onClick={() => dispatch(addToCart({ item: { ...item, count } }))}>
-              ADD TO CART
+              Sepete Ekle
             </Button>
           </Box>
           <Box>

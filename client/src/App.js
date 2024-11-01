@@ -7,6 +7,11 @@ import Confirmation from "./scenes/checkout/Confirmation";
 import Navbar from "./scenes/global/Navbar";
 import CartMenu from "./scenes/global/CartMenu";
 import Footer from "./scenes/global/Footer";
+import SignIn from "./scenes/Signin/Signin";
+import SignUp from "./scenes/Signup/Signup";
+import { getToken } from "./helpers";
+import Profile from "./scenes/Profile/Profile";
+import { Navigate } from "react-router-dom";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -27,6 +32,12 @@ function App() {
           <Route path="item/:documentId" element={<ItemDetails />} />
           <Route path="checkout" element={<Checkout />} />
           <Route path="checkout/success" element={<Confirmation />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/profile"
+            element={getToken() ? <Profile /> : <Navigate to="/signin" />}
+          />
         </Routes>
         <CartMenu />
         <Footer />

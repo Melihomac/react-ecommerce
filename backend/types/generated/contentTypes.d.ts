@@ -1084,6 +1084,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    phoneNumber: Schema.Attribute.String;
     profile_slug: Schema.Attribute.UID<'username'>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
