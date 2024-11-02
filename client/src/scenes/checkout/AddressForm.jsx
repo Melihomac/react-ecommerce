@@ -51,10 +51,10 @@ const AddressForm = ({
         label="Şehir"
         onBlur={handleBlur}
         onChange={handleChange}
-        value={values.lastName}
-        name={formattedName("lastName")}
-        error={formattedError("lastName")}
-        helperText={formattedHelper("lastName")}
+        value={values.city}
+        name={formattedName("city")}
+        error={formattedError("city")}
+        helperText={formattedHelper("city")}
         sx={{ gridColumn: "span 2" }}
       />
       <TextField
@@ -62,10 +62,10 @@ const AddressForm = ({
         label="İlçe"
         onBlur={handleBlur}
         onChange={handleChange}
-        value={values.country}
-        name={formattedName("country")}
-        error={formattedError("country")}
-        helperText={formattedHelper("country")}
+        value={values.state}
+        name={formattedName("state")}
+        error={formattedError("state")}
+        helperText={formattedHelper("state")}
         sx={{ gridColumn: "span 2" }}
       />
       <TextField
@@ -74,10 +74,10 @@ const AddressForm = ({
         label="Mahalle"
         onBlur={handleBlur}
         onChange={handleChange}
-        value={values.street1}
-        name={formattedName("street1")}
-        error={formattedError("street1")}
-        helperText={formattedHelper("street1")}
+        value={values.neighbour}
+        name={formattedName("neighbour")}
+        error={formattedError("neighbour")}
+        helperText={formattedHelper("neighbour")}
         sx={{ gridColumn: "span 2" }}
       />
       {/* <TextField
@@ -98,10 +98,10 @@ const AddressForm = ({
         label="Açık Adres"
         onBlur={handleBlur}
         onChange={handleChange}
-        value={values.city}
-        name={formattedName("city")}
-        error={formattedError("city")}
-        helperText={formattedHelper("city")}
+        value={values.address}
+        name={formattedName("address")}
+        error={formattedError("address")}
+        helperText={formattedHelper("address")}
         sx={{ gridColumn: "span 4" }}
       />
       {/* <TextField

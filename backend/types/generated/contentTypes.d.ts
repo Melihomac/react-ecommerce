@@ -537,6 +537,7 @@ export interface ApiGlobalGlobal extends Struct.SingleTypeSchema {
 export interface ApiInformationInformation extends Struct.CollectionTypeSchema {
   collectionName: 'informations';
   info: {
+    description: '';
     displayName: 'Information';
     pluralName: 'informations';
     singularName: 'information';
@@ -545,6 +546,8 @@ export interface ApiInformationInformation extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    billName: Schema.Attribute.String;
+    city: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -555,8 +558,10 @@ export interface ApiInformationInformation extends Struct.CollectionTypeSchema {
       'api::information.information'
     > &
       Schema.Attribute.Private;
+    neighbour: Schema.Attribute.String;
     price: Schema.Attribute.Decimal;
     publishedAt: Schema.Attribute.DateTime;
+    state: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

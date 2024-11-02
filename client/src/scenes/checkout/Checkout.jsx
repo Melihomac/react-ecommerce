@@ -6,8 +6,12 @@ import * as yup from "yup";
 import { shades } from "../../theme";
 import Payment from "./Payment";
 import Shipping from "./Shipping";
+import { useAuthContext } from "../../context/AuthContext";
+import { useParams } from "react-router-dom";
 
 const Checkout = () => {
+  const { user } = useAuthContext();
+  const { itemId, documentId } = useParams();
   const [activeStep, setActiveStep] = useState(0);
   const [iframeToken, setIframeToken] = useState(null);
   const cart = useSelector((state) => state.cart.cart);
@@ -29,6 +33,38 @@ const Checkout = () => {
     }
 
     actions.setTouched({});
+    try {
+      const userData = {
+        data: {
+          email: values.email,
+          user_address: values.billingAddress.address,
+          user_phone: values.phoneNumber,
+          city: values.billingAddress.city,
+          state: values.billingAddress.state,
+          neighbour: values.billingAddress.neighbour,
+          billName: values.billingAddress.firstName,
+        },
+      };
+      if (user) {
+        userData.data.user_name = user.username;
+      }
+
+      const response = await fetch("http://localhost:1337/api/informations", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save user information");
+      }
+      const data = await response.json();
+      console.log("User information saved:", data);
+    } catch (error) {
+      console.error("Error saving user information:", error);
+    }
   };
 
   useEffect(() => {
@@ -40,6 +76,12 @@ const Checkout = () => {
         });
         const jsonResponse = await response.json();
         setIframeToken(jsonResponse.iframetoken);
+        console.log(activeStep);
+        if (activeStep === 2) {
+          localStorage.setItem("paymentStatus", "success");
+        } else {
+          localStorage.setItem("paymentStatus", "failure");
+        }
       } catch (error) {
         console.error("Error fetching iframetoken:", error);
       }
@@ -47,121 +89,6 @@ const Checkout = () => {
 
     fetchToken();
   }, []);
-
-  // async function getUserIp() {
-  //   try {
-  //     const response = await fetch("https://api64.ipify.org?format=json");
-  //     const data = await response.json();
-  //     return data.ip;
-  //   } catch (error) {
-  //     console.error("Error fetching IP address:", error);
-  //   }
-  // }
-
-  // // Example usage:
-  // getUserIp().then((ip) => console.log("User IP Address:", ip));
-
-  // async function makePayment(values) {
-  //   try {
-  //     //const userIp = await getUserIp(); // Get the user's IP address
-
-  //     // Prepare data for payment initiation
-  //     const response = await fetch("http://localhost:1337/api/paytr", {
-  //       method: "GET",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         data: {
-  //           payment_amount: calculateTotal(cart).toString(),
-  //           user_name: values.firstName,
-  //           user_ip: "",
-  //           user_basket: "",
-  //           user_address: values.shippingAddress.city,
-  //           user_phone: values.phoneNumber,
-  //           // email: values.email,
-  //           // phoneNumber: values.phoneNumber,
-  //           // userIp: userIp, // Automatically set user IP here
-  //         },
-  //       }),
-  //     });
-
-  //     const jsonResponse = await response.json();
-  //     console.log("Server Response:", jsonResponse);
-  //     const { token, error } = jsonResponse;
-  //     console.log(token);
-  //     if (token) {
-  //       const iframeUrl = `https://www.paytr.com/odeme/guvenli/${token}`;
-  //       window.location.href = iframeUrl;
-  //     } else {
-  //       console.error("Error starting payment:", error || "No token received");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error initiating payment:", err);
-  //   }
-  // }
-
-  // async function fetchAndSendPaymentData() {
-  //   try {
-  //     const response = await fetch("http://localhost:1337/api/paytr");
-  //     const responseText = await response.text();
-  //     console.log("API Yanıtı:", responseText);
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP hatası! Durum: ${response.status}`);
-  //     }
-
-  //     const data = JSON.parse(responseText);
-  //     console.log("JSON Verisi:", data);
-
-  //     const paymentData = {
-  //       merchant_id: data.merchant_id,
-  //       user_ip: data.user_ip,
-  //       merchant_oid: data.merchant_oid,
-  //       email: data.email,
-  //       payment_type: "card",
-  //       payment_amount: data.payment_amount,
-  //       currency: data.currency,
-  //       test_mode: "1",
-  //       non_3d: "0",
-  //       merchant_ok_url: data.merchant_ok_url,
-  //       merchant_fail_url: data.merchant_fail_url,
-  //       user_name: data.user_name,
-  //       user_address: data.user_address,
-  //       user_phone: data.user_phone,
-  //       user_basket: JSON.stringify(data.user_basket),
-  //       debug_on: data.debug_on,
-  //       client_lang: data.client_lang,
-  //       paytr_token: data.token,
-  //       non3d_test_failed: data.non3d_test_failed,
-  //       installment_count: "0",
-  //       card_type: "",
-  //     };
-
-  //     const formData = new FormData();
-  //     Object.keys(paymentData).forEach((key) =>
-  //       formData.append(key, paymentData[key])
-  //     );
-
-  //     const paytrResponse = await fetch("https://www.paytr.com/odeme", {
-  //       method: "POST",
-  //       body: formData,
-  //       headers: {
-  //         origin: ["https://www.paytr.com"],
-  //         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
-  //       },
-  //     });
-
-  //     const paytrResponseText = await paytrResponse.text();
-  //     console.log("PayTR Yanıtı:", paytrResponseText);
-
-  //     if (response.token) {
-  //       window.location.href = `https://www.paytr.com/odeme/guvenli/${response.data.token}`;
-  //     } else {
-  //       console.error("Ödeme işlemi başarısız:", paytrResponseText);
-  //     }
-  //   } catch (error) {
-  //     console.error("İstek gönderme hatası:", error);
-  //   }
-  // }
 
   return (
     <Box width="80%" m="100px auto">
@@ -254,7 +181,7 @@ const Checkout = () => {
                     padding: "15px 40px",
                   }}
                   onClick={() => setActiveStep(1)}>
-                  {!isSecondStep ? "Next" : "Place Order"}
+                  {!isThirdStep ? "Next" : "Place Order"}
                 </Button>
               </Box>
             </form>
@@ -275,6 +202,8 @@ const initialValues = {
     city: "",
     state: "",
     zipCode: "",
+    neigbour: "",
+    address: "",
   },
   shippingAddress: {
     isSameAddress: true,
@@ -343,3 +272,118 @@ const checkoutSchema = [
 ];
 
 export default Checkout;
+
+// async function getUserIp() {
+//   try {
+//     const response = await fetch("https://api64.ipify.org?format=json");
+//     const data = await response.json();
+//     return data.ip;
+//   } catch (error) {
+//     console.error("Error fetching IP address:", error);
+//   }
+// }
+
+// // Example usage:
+// getUserIp().then((ip) => console.log("User IP Address:", ip));
+
+// async function makePayment(values) {
+//   try {
+//     //const userIp = await getUserIp(); // Get the user's IP address
+
+//     // Prepare data for payment initiation
+//     const response = await fetch("http://localhost:1337/api/paytr", {
+//       method: "GET",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({
+//         data: {
+//           payment_amount: calculateTotal(cart).toString(),
+//           user_name: values.firstName,
+//           user_ip: "",
+//           user_basket: "",
+//           user_address: values.shippingAddress.city,
+//           user_phone: values.phoneNumber,
+//           // email: values.email,
+//           // phoneNumber: values.phoneNumber,
+//           // userIp: userIp, // Automatically set user IP here
+//         },
+//       }),
+//     });
+
+//     const jsonResponse = await response.json();
+//     console.log("Server Response:", jsonResponse);
+//     const { token, error } = jsonResponse;
+//     console.log(token);
+//     if (token) {
+//       const iframeUrl = `https://www.paytr.com/odeme/guvenli/${token}`;
+//       window.location.href = iframeUrl;
+//     } else {
+//       console.error("Error starting payment:", error || "No token received");
+//     }
+//   } catch (err) {
+//     console.error("Error initiating payment:", err);
+//   }
+// }
+
+// async function fetchAndSendPaymentData() {
+//   try {
+//     const response = await fetch("http://localhost:1337/api/paytr");
+//     const responseText = await response.text();
+//     console.log("API Yanıtı:", responseText);
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP hatası! Durum: ${response.status}`);
+//     }
+
+//     const data = JSON.parse(responseText);
+//     console.log("JSON Verisi:", data);
+
+//     const paymentData = {
+//       merchant_id: data.merchant_id,
+//       user_ip: data.user_ip,
+//       merchant_oid: data.merchant_oid,
+//       email: data.email,
+//       payment_type: "card",
+//       payment_amount: data.payment_amount,
+//       currency: data.currency,
+//       test_mode: "1",
+//       non_3d: "0",
+//       merchant_ok_url: data.merchant_ok_url,
+//       merchant_fail_url: data.merchant_fail_url,
+//       user_name: data.user_name,
+//       user_address: data.user_address,
+//       user_phone: data.user_phone,
+//       user_basket: JSON.stringify(data.user_basket),
+//       debug_on: data.debug_on,
+//       client_lang: data.client_lang,
+//       paytr_token: data.token,
+//       non3d_test_failed: data.non3d_test_failed,
+//       installment_count: "0",
+//       card_type: "",
+//     };
+
+//     const formData = new FormData();
+//     Object.keys(paymentData).forEach((key) =>
+//       formData.append(key, paymentData[key])
+//     );
+
+//     const paytrResponse = await fetch("https://www.paytr.com/odeme", {
+//       method: "POST",
+//       body: formData,
+//       headers: {
+//         origin: ["https://www.paytr.com"],
+//         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+//       },
+//     });
+
+//     const paytrResponseText = await paytrResponse.text();
+//     console.log("PayTR Yanıtı:", paytrResponseText);
+
+//     if (response.token) {
+//       window.location.href = `https://www.paytr.com/odeme/guvenli/${response.data.token}`;
+//     } else {
+//       console.error("Ödeme işlemi başarısız:", paytrResponseText);
+//     }
+//   } catch (error) {
+//     console.error("İstek gönderme hatası:", error);
+//   }
+// }

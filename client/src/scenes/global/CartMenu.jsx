@@ -27,11 +27,9 @@ const CartMenu = () => {
   const isCartOpen = useSelector((state) => state.cart.isCartOpen);
   const [itemData, setItemData] = useState([]);
   const { documentId } = useParams();
-
   const totalPrice = cart.reduce((total, item) => {
     return total + item.count * item.price;
   }, 0);
-
   const renderLongDescription = (longDescription) => {
     return longDescription.map((paragraph, index) => (
       <Typography key={index} sx={{ mt: "20px" }}>
@@ -43,7 +41,6 @@ const CartMenu = () => {
   async function getItem() {
     const matchedItems = cart.filter((cartItem) => cartItem.id === documentId);
 
-    // Fetch each matched item and update the state
     const fetchedItems = await Promise.all(
       matchedItems.map(async (matchedItem) => {
         const response = await fetch(
@@ -149,27 +146,28 @@ const CartMenu = () => {
           </Box>
 
           {/* ACTIONS */}
-          <Box m="20px 0">
-            <FlexBox m="20px 0">
-              <Typography fontWeight="bold">Toplam</Typography>
-              <Typography fontWeight="bold">{totalPrice} TL</Typography>
-            </FlexBox>
-            <Button
-              sx={{
-                backgroundColor: shades.primary[400],
-                color: "white",
-                borderRadius: 0,
-                minWidth: "100%",
-                padding: "20px 40px",
-                m: "20px 0",
-              }}
-              onClick={() => {
-                navigate("/checkout");
-                dispatch(setIsCartOpen({}));
-              }}>
-              CHECKOUT
-            </Button>
-          </Box>
+          {cart.map((item) => (
+            <>
+              <FlexBox key={`${item.name}-${item.id}`} p="15px 0">
+                <Typography fontWeight="bold">{item.name}</Typography>
+              </FlexBox>
+              <Button
+                sx={{
+                  backgroundColor: shades.primary[400],
+                  color: "white",
+                  borderRadius: 0,
+                  minWidth: "100%",
+                  padding: "20px 40px",
+                  m: "20px 0",
+                }}
+                onClick={() => {
+                  navigate(`/checkout/${item.documentId}`); // Navigate to checkout for this item
+                  dispatch(setIsCartOpen({}));
+                }}>
+                Ödemeye Git
+              </Button>
+            </>
+          ))}
         </Box>
       </Box>
     </Box>

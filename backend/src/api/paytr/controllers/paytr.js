@@ -80,6 +80,9 @@ module.exports = {
       const response = await axios(options);
       const res_data = response.data;
       if (res_data.status == "success") {
+        // await axios.post("http://localhost:1337/api/paytr/callback", {
+        //   status: res_data.status,
+        // });
         ctx.body = { iframetoken: res_data.token };
       } else {
         ctx.body = {
@@ -94,33 +97,22 @@ module.exports = {
   },
 
   callbackAction: async (ctx, next) => {
-    try {
-      const { merchant_oid, status, total_amount } = ctx.request.body;
-      const merchant_key = "nFB9Une47ffYm85T";
-      const merchant_salt = "RP2UrK5xmCx2sq4w";
-
-      // Validate hash from PayTR response
-      const paytr_token = `${merchant_oid}${merchant_salt}${status}${total_amount}`;
-      const expected_hash = crypto
-        .createHmac("sha256", merchant_key)
-        .update(paytr_token)
-        .digest("base64");
-
-      if (ctx.request.body.hash !== expected_hash) {
-        return (ctx.body = { error: "Hash validation failed." });
-      }
-
-      // Process the payment status
-      if (status === "success") {
-        console.log("Payment successful for merchant_oid:", merchant_oid);
-        ctx.body = "OK";
-      } else {
-        console.log("Payment failed for merchant_oid:", merchant_oid);
-        ctx.body = { error: "Payment failed" };
-      }
-    } catch (err) {
-      console.error("Callback processing error:", err);
-      ctx.body = { error: "An error occurred during the callback." };
-    }
+    //   try {
+    //     const response = await axios.post(
+    //       "http://localhost:1337/api/pay/callback",
+    //       {
+    //         merchant_oid: merchantOid,
+    //       }
+    //     );
+    //     if (response.data && response.data.status === "success") {
+    //       // Update localStorage if payment was successful
+    //       alert("Payment was successful!");
+    //     } else {
+    //       alert("Payment failed or hash validation failed.");
+    //     }
+    //   } catch (error) {
+    //     console.error("Error checking payment status:", error);
+    //   }
+    // },
   },
 };

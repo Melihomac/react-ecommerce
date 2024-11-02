@@ -4,7 +4,8 @@
   "info": {
     "singularName": "information",
     "pluralName": "informations",
-    "displayName": "Information"
+    "displayName": "Information",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -27,6 +28,18 @@
       "type": "text"
     },
     "user_phone": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "neighbour": {
+      "type": "string"
+    },
+    "billName": {
       "type": "string"
     }
   }
