@@ -47,10 +47,6 @@ const ShoppingList = () => {
     (item) => item.category === "doğumGünü"
   );
 
-  console.log("Top Rated Items:", topRatedItems);
-  console.log("New Arrivals Items:", newArrivalsItems);
-  console.log("Best Sellers Items:", bestSellersItems);
-
   return (
     <Box width="80%" margin="80px auto">
       <Typography variant="h3" textAlign="center">

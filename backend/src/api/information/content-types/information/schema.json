@@ -18,9 +18,6 @@
     "user_name": {
       "type": "string"
     },
-    "user_basket": {
-      "type": "blocks"
-    },
     "price": {
       "type": "decimal"
     },
@@ -41,6 +38,9 @@
     },
     "billName": {
       "type": "string"
+    },
+    "user_basket": {
+      "type": "json"
     }
   }
 }

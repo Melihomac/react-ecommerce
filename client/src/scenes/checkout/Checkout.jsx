@@ -34,6 +34,29 @@ const Checkout = () => {
 
     actions.setTouched({});
     try {
+      const responseItem = await fetch("http://localhost:1337/api/items", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      // ["Sample Product 1", "18.00", 1],
+
+      const jsonResponse = await responseItem.json();
+      const items = jsonResponse.data;
+
+      const documentIdToFind = documentId;
+      const matchingItem = items.find(
+        (item) => item.documentId === documentIdToFind
+      );
+
+      const price = matchingItem.price;
+      const itemName = matchingItem.name;
+      if (matchingItem) {
+      } else {
+        console.log("documentId not found");
+      }
       const userData = {
         data: {
           email: values.email,
@@ -43,6 +66,8 @@ const Checkout = () => {
           state: values.billingAddress.state,
           neighbour: values.billingAddress.neighbour,
           billName: values.billingAddress.firstName,
+          price: price,
+          user_basket: JSON.stringify([itemName, price, 1]),
         },
       };
       if (user) {
@@ -56,12 +81,6 @@ const Checkout = () => {
         },
         body: JSON.stringify(userData),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to save user information");
-      }
-      const data = await response.json();
-      console.log("User information saved:", data);
     } catch (error) {
       console.error("Error saving user information:", error);
     }

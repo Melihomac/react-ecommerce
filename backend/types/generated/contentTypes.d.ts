@@ -566,7 +566,7 @@ export interface ApiInformationInformation extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     user_address: Schema.Attribute.Text;
-    user_basket: Schema.Attribute.Blocks;
+    user_basket: Schema.Attribute.JSON;
     user_name: Schema.Attribute.String;
     user_phone: Schema.Attribute.String;
   };
