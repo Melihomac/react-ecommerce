@@ -13,9 +13,7 @@ module.exports = {
         "Content-Type": "application/json",
       },
     });
-
     // ["Sample Product 1", "18.00", 1],
-
     const jsonResponsed = await responseItem.json();
     const lastEntry = jsonResponsed.data[jsonResponsed.data.length - 1];
     const price = (lastEntry.price * 100).toString();
