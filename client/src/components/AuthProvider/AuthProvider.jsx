@@ -11,6 +11,8 @@ const AuthProvider = ({ children }) => {
 
   const authToken = getToken();
 
+  console.log(userData);
+
   const fetchLoggedInUser = async (token) => {
     setIsLoading(true);
     try {

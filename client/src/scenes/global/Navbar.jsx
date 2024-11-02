@@ -11,6 +11,7 @@ import { shades } from "../../theme";
 import logo from "../../assets/logo/logo.png";
 import { setIsCartOpen } from "../../state";
 import { useAuthContext } from "../../context/AuthContext";
+import AppHeader from "../../components/Appheader/Appheader";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -64,22 +65,23 @@ const Navbar = () => {
               <PersonOutline onClick={() => navigate("/signin")} />
             </IconButton>
           ) : (
-            <Box
-              sx={{
-                marginTop: "5px",
-                width: "25px", // kutunun genişliğini belirle
-                height: "25px", // kutunun yüksekliğini belirle
-                display: "flex", // içeriği ortalamak için flex
-                alignItems: "center", // dikey ortalama
-                justifyContent: "center", // yatay ortalama
-                border: "1px solid", // kenarlık ekle
-                borderRadius: "50%", // daire yapmak için
-                backgroundColor: "#f0f0f0", // arka plan rengi
-                cursor:"pointer"
-              }}
-              onClick={() => navigate("/profile")}>
-              {firstLetter}
-            </Box>
+            <AppHeader />
+            // <Box
+            //   sx={{
+            //     marginTop: "5px",
+            //     width: "25px",
+            //     height: "25px",
+            //     display: "flex",
+            //     alignItems: "center",
+            //     justifyContent: "center",
+            //     border: "1px solid",
+            //     borderRadius: "50%",
+            //     backgroundColor: "#f0f0f0",
+            //     cursor: "pointer",
+            //   }}
+            //   onClick={() => navigate("/profile")}>
+            //   {firstLetter}
+            // </Box>
           )}
 
           <Badge

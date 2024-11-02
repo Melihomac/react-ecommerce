@@ -30,11 +30,8 @@ const SignUp = () => {
 
   const onFinish = async (values) => {
     setIsLoading(true);
-
     const formData = { ...values };
-
     console.log("Request Payload:", JSON.stringify(formData));
-    
     try {
       const response = await fetch(`${API}/auth/local/register`, {
         method: "POST",
@@ -50,9 +47,8 @@ const SignUp = () => {
       } else {
         setToken(data.jwt);
         setUser(data.user);
-
         message.success(`Welcome to Social Cards ${data.user.username}!`);
-        navigate("/profile", { replace: true });
+        navigate("/", { replace: true });
       }
     } catch (error) {
       console.error(error);
@@ -111,7 +107,7 @@ const SignUp = () => {
                 <Input.Password placeholder="Şirenizi giriniz" />
               </Form.Item>
 
-              <Form.Item
+              {/* <Form.Item
                 label="Telefon Numarası"
                 name="user_phone"
                 rules={[
@@ -126,7 +122,7 @@ const SignUp = () => {
                   defaultCountry="TR"
                   onChange={setValue}
                 />
-              </Form.Item>
+              </Form.Item> */}
 
               <Form.Item>
                 <Button
