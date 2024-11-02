@@ -7,33 +7,40 @@ const nodeBase64 = require("nodejs-base64-converter");
 
 module.exports = {
   exampleAction: async (ctx, next) => {
-    const options = {
+    const responseItem = await fetch("http://localhost:1337/api/informations", {
       method: "GET",
-      url: "http://localhost:1337/api/informations",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    };
-    const responseInfo = await axios(options);
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    // ["Sample Product 1", "18.00", 1],
+
+    const jsonResponsed = await responseItem.json();
+    const lastEntry = jsonResponsed.data[jsonResponsed.data.length - 1];
+    const price = (lastEntry.price * 100).toString();
+    const userBasket = lastEntry.user_basket;
+    const userEmail = lastEntry.email.toString();
+    const userAddress = lastEntry.user_address.toString();
+    const userPhone = lastEntry.user_phone.toString();
+    const userName = lastEntry.billName.toString();
     try {
       const merchant_id = "407808";
       const merchant_key = "nFB9Une47ffYm85T";
       const merchant_salt = "RP2UrK5xmCx2sq4w";
-      const basket = JSON.stringify([
-        ["Sample Product 1", "18.00", 1],
-        ["Sample Product 2", "33.25", 2],
-        ["Sample Product 3", "45.42", 1],
-      ]);
+      const basket = userBasket;
       const user_basket = nodeBase64.encode(basket);
       const merchant_oid = "IN" + microtime.now();
       const user_ip = ctx.request.ip || "";
-      const payment_amount = "100";
-      const email = "melihomac@hotmail.com";
+      const payment_amount = price;
+      const email = userEmail;
       const no_installment = "0";
       const max_installment = "0";
       const currency = "TL";
       const test_mode = "1";
-      const user_address = "test test test";
-      const user_phone = "05555555555";
-      const user_name = "paytr Test";
+      const user_address = userAddress;
+      const user_phone = userPhone;
+      const user_name = userName;
       const lang = "tr";
       const non_3d = "1";
       const merchant_fail_url = "http://localhost:3000/checkout/success";
