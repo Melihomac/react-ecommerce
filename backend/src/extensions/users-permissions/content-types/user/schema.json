@@ -78,8 +78,9 @@
       "type": "uid",
       "targetField": "username"
     },
-    "phoneNumber": {
-      "type": "string"
+    "user_phone": {
+      "type": "string",
+      "required": true
     }
   }
 }

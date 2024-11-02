@@ -44,7 +44,7 @@ const Profile = () => {
         initialValues={{
           username: user?.username,
           email: user?.email,
-          phoneNumber: user?.phoneNumber,
+          user_phone: user?.user_phone,
           twitter_username: user?.twitter_username,
           linkedin_username: user?.linkedin_username,
           github_username: user?.github_username,
@@ -111,7 +111,7 @@ const Profile = () => {
           <Col md={8} lg={8} sm={24} xs={24}>
             <Form.Item
               label="Phone Number"
-              name="phoneNumber"
+              name="user_phone"
               rules={[
                 {
                   type: "string",

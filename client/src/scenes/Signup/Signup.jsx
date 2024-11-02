@@ -17,7 +17,6 @@ import { useAuthContext } from "../../context/AuthContext";
 import useScreenSize from "../../hook/useScreenSize";
 import { API } from "../../constant";
 import { setToken } from "../../helpers";
-import FormItem from "antd/es/form/FormItem";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -32,10 +31,10 @@ const SignUp = () => {
   const onFinish = async (values) => {
     setIsLoading(true);
 
-    const formData = { ...values, phoneNumber: value };
+    const formData = { ...values };
 
-    console.log(formData);
-
+    console.log("Request Payload:", JSON.stringify(formData));
+    
     try {
       const response = await fetch(`${API}/auth/local/register`, {
         method: "POST",
@@ -112,21 +111,22 @@ const SignUp = () => {
                 <Input.Password placeholder="Şirenizi giriniz" />
               </Form.Item>
 
-              <FormItem
+              <Form.Item
                 label="Telefon Numarası"
-                name="phoneNumber"
+                name="user_phone"
                 rules={[
                   {
                     required: true,
-                    message: "Please enter a valid phone number",
+                    type: "string",
                   },
                 ]}>
                 <PhoneInput
                   placeholder="Enter phone number"
                   value={value}
+                  defaultCountry="TR"
                   onChange={setValue}
                 />
-              </FormItem>
+              </Form.Item>
 
               <Form.Item>
                 <Button
