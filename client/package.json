@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@date-io/date-fns": "^3.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.4",
@@ -16,7 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "antd": "^5.21.6",
     "antd-phone-input": "0.3.10",
-    "date-fns": "4.1.0",
+    "date-fns": "^3.0.0",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "formik": "^2.4.6",

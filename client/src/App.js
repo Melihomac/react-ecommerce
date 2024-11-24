@@ -41,9 +41,10 @@ function App() {
           <Route path="checkout/:documentId" element={<Checkout />} />
           <Route
             path="checkout/success"
-            element={
-              getPaymentStatus() ? <Confirmation /> : <Navigate to="/" />
-            }
+            // element={
+            //   getPaymentStatus() ? <Confirmation /> : <Navigate to="/" />
+            // }
+            element={<Confirmation />}
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
